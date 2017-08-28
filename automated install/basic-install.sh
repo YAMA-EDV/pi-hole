@@ -79,8 +79,8 @@ show_ascii_berry() {
                .',,,,,,,,,'.
                 .',,,,,,'.
                   ..'''.
+				  Modified by YAMA Industrials, Inc. - Malware & Tracker Blocking
 "
-Modified by YAMA Industrials, Inc.
 }
 
 
