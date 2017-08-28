@@ -7,7 +7,7 @@
 #
 # This file is copyright under the latest version of the EUPL.
 # Please see LICENSE file for your rights under this license.
-# modified 8/28/2017 - YAMA Industrials, Inc. - Malware and Tracker Blocking
+
 
 
 # pi-hole.net/donate
@@ -15,9 +15,6 @@
 # Install with this command (from your Pi):
 #
 # curl -L install.pi-hole.net | bash
-# sudo git clone https://github.com/YAMA-EDV/pi-hole
-# cd pi-hole/automated\ install
-# bash basic-install.sh
 
 set -e
 ######## VARIABLES #########
@@ -26,9 +23,9 @@ instalLogLoc=/etc/pihole/install.log
 setupVars=/etc/pihole/setupVars.conf
 lighttpdConfig=/etc/lighttpd/lighttpd.conf
 
-webInterfaceGitUrl="https://github.com/YAMA-EDV/AdminLTE"
+webInterfaceGitUrl="https://github.com/pi-hole/AdminLTE.git"
 webInterfaceDir="/var/www/html/admin"
-piholeGitUrl="https://github.com/YAMA-EDV/pi-hole"
+piholeGitUrl="https://github.com/pi-hole/pi-hole.git"
 PI_HOLE_LOCAL_REPO="/etc/.pihole"
 PI_HOLE_FILES=(chronometer list piholeDebug piholeLogFlush setupLCD update version gravity uninstall webpage)
 PI_HOLE_INSTALL_DIR="/opt/pihole"
@@ -79,7 +76,6 @@ show_ascii_berry() {
                .',,,,,,,,,'.
                 .',,,,,,'.
                   ..'''.
-				  Modified by YAMA Industrials, Inc. - Malware & Tracker Blocking
 "
 }
 
@@ -252,10 +248,10 @@ get_available_interfaces() {
 
 welcomeDialogs() {
   # Display the welcome dialog
-  whiptail --msgbox --backtitle "Welcome" --title "Pi-hole (modified by Yama Industrials, Inc.) automated installer" "\n\nThis installer will transform your device into a network-wide Malware blocker!" ${r} ${c}
+  whiptail --msgbox --backtitle "Welcome" --title "Pi-hole automated installer" "\n\nThis installer will transform your device into a network-wide ad blocker!" ${r} ${c}
 
   # Support for a part-time dev
-  whiptail --msgbox --backtitle "Plea" --title "Free and open source" "\n\nThe Pi-hole is free, but powered by your donations (modofied by Yama Industrials, Inc.:  http://pi-hole.net/donate" ${r} ${c}
+  whiptail --msgbox --backtitle "Plea" --title "Free and open source" "\n\nThe Pi-hole is free, but powered by your donations:  http://pi-hole.net/donate" ${r} ${c}
 
   # Explain the need for a static address
   whiptail --msgbox --backtitle "Initiating network interface" --title "Static IP Needed" "\n\nThe Pi-hole is a SERVER so it needs a STATIC IP ADDRESS to function properly.
@@ -1266,15 +1262,15 @@ FTLinstall() {
   echo -n ":::  Installing FTL... "
 
   orig_dir="${PWD}"
-  latesttag=$(curl -sI https://github.com/YAMA-EDV/FTL | grep "Location" | awk -F '/' '{print $NF}')
+  latesttag=$(curl -sI https://github.com/pi-hole/FTL/releases/latest | grep "Location" | awk -F '/' '{print $NF}')
   # Tags should always start with v, check for that.
   if [[ ! "${latesttag}" == v* ]]; then
     echo "failed (error in getting latest release location from GitHub)"
     return 1
   fi
-  if curl -sSL --fail "https://github.com/YAMA-EDV/FTL${latesttag%$'\r'}/${binary}" -o "/tmp/${binary}"; then
+  if curl -sSL --fail "https://github.com/pi-hole/FTL/releases/download/${latesttag%$'\r'}/${binary}" -o "/tmp/${binary}"; then
     # Get sha1 of the binary we just downloaded for verification.
-    curl -sSL --fail "https://github.com/YAMA-EDV/FTL${latesttag%$'\r'}/${binary}.sha1" -o "/tmp/${binary}.sha1"
+    curl -sSL --fail "https://github.com/pi-hole/FTL/releases/download/${latesttag%$'\r'}/${binary}.sha1" -o "/tmp/${binary}.sha1"
     # Check if we just downloaded text, or a binary file.
     cd /tmp
     if sha1sum --status --quiet -c "${binary}".sha1; then
@@ -1363,7 +1359,7 @@ main() {
 
     if command -v sudo &> /dev/null; then
       echo "::: Utility sudo located."
-      exec curl -sSL https://github.com/YAMA-EDV/pi-hole/tree/master/automated%20install/basic-install.sh | sudo bash "$@"
+      exec curl -sSL https://raw.githubusercontent.com/pi-hole/pi-hole/master/automated%20install/basic-install.sh | sudo bash "$@"
       exit $?
     else
       echo "::: sudo is needed for the Web interface to run pihole commands.  Please run this script as root and it will be automatically installed."
@@ -1503,13 +1499,13 @@ main() {
 
   echo ":::"
   if [[ "${useUpdateVars}" == false ]]; then
-    echo "::: Installation Complete! Configure your devices to use the Pi-hole as their DNS protection server using:"
+    echo "::: Installation Complete! Configure your devices to use the Pi-hole as their DNS server using:"
     echo ":::     ${IPV4_ADDRESS%/*}"
     echo ":::     ${IPV6_ADDRESS}"
     echo ":::"
     echo "::: If you set a new IP address, you should restart the Pi."
     if [[ ${INSTALL_WEB} == true ]]; then
-      echo "::: View the web interface at http://${IPV4_ADDRESS%/*}/admin"
+      echo "::: View the web interface at http://pi.hole/admin or http://${IPV4_ADDRESS%/*}/admin"
     fi
   else
     echo "::: Update complete!"
