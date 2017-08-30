@@ -7,7 +7,6 @@
 #
 # This file is copyright under the latest version of the EUPL.
 # Please see LICENSE file for your rights under this license.
-# modified 8/28/2017 - Yama Industrials, Inc. - YAMA Protection Series - Malware & Tracker Blocker
 
 
 
@@ -77,7 +76,6 @@ show_ascii_berry() {
                .',,,,,,,,,'.
                 .',,,,,,'.
                   ..'''.
-			modified by Yama Industrials, Inc. -  YAMA Protection Series - Malware & Tracker Blocker
 "
 }
 
@@ -250,10 +248,10 @@ get_available_interfaces() {
 
 welcomeDialogs() {
   # Display the welcome dialog
-  whiptail --msgbox --backtitle "Welcome" --title "Pi-hole automated installer" "\n\nYAMA Protection Series - Malware & Tracker Blocker" ${r} ${c}
+  whiptail --msgbox --backtitle "Welcome" --title "Pi-hole automated installer" "\n\nThis installer will transform your device into a network-wide ad blocker!" ${r} ${c}
 
   # Support for a part-time dev
-  whiptail --msgbox --backtitle "Plea" --title "Free and open source" "\n\nmodified by Yama Industrials, Inc. - YAMA Protection Series - Malware & Tracker Blocker" ${r} ${c}
+  whiptail --msgbox --backtitle "Plea" --title "Free and open source" "\n\nThe Pi-hole is free, but powered by your donations:  http://pi-hole.net/donate" ${r} ${c}
 
   # Explain the need for a static address
   whiptail --msgbox --backtitle "Initiating network interface" --title "Static IP Needed" "\n\nThe Pi-hole is a SERVER so it needs a STATIC IP ADDRESS to function properly.
@@ -529,8 +527,7 @@ setDNS() {
       Norton ""
       Comodo ""
       DNSWatch ""
-      Custom ""
-	  YAMA - coming soon "")
+      Custom "")
   DNSchoices=$(whiptail --separate-output --menu "Select Upstream DNS Provider. To use your own, select Custom." ${r} ${c} 6 \
     "${DNSChooseOptions[@]}" 2>&1 >/dev/tty) || \
     { echo "::: Cancel selected. Exiting"; exit 1; }
@@ -1508,7 +1505,7 @@ main() {
     echo ":::"
     echo "::: If you set a new IP address, you should restart the Pi."
     if [[ ${INSTALL_WEB} == true ]]; then
-      echo "::: View the web interface at http://${IPV4_ADDRESS%/*}/admin"
+      echo "::: View the web interface at http://pi.hole/admin or http://${IPV4_ADDRESS%/*}/admin"
     fi
   else
     echo "::: Update complete!"
